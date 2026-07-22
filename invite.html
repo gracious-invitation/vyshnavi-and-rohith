@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veer & Zara - Engagement & Wedding Invitation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary-color: #90304f;   /* wedding accent (maroon) */
+  --gold-color: #d4af37;      /* engagement accent (gold) */
+  --bg-light: #fdf8f5;
+  --text-dark: #333333;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #e3d3cb;
+  color: var(--text-dark);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* Responsive Main Container */
+.main-container {
+  width: 100%;
+  max-width: 600px;
+  background: var(--bg-light);
+  min-height: 100vh;
+  box-shadow: 0 0 30px rgba(0,0,0,0.15);
+  position: relative;
+  overflow-x: hidden;
+  margin: 0 auto;
+}
+
+/* Envelope Landing Page */
+.envelope-landing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #a34862;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+}
+
+.envelope {
+  width: min(280px, 80vw);
+  height: min(190px, 55vw);
+  background: #b5536e;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-left: calc(min(280px, 80vw) / 2) solid transparent;
+  border-right: calc(min(280px, 80vw) / 2) solid transparent;
+  border-top: calc(min(190px, 55vw) * 0.55) solid #913a53;
+  transform-origin: top;
+  transition: transform 0.4s ease;
+}
+
+.wax-seal {
+  width: 65px;
+  height: 65px;
+  background: radial-gradient(circle, #e6ca65 0%, #b8860b 100%);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #5a3d00;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  z-index: 2;
+  border: 2px solid #f7e28b;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.envelope-text {
+  color: #fff;
+  margin-top: 25px;
+  letter-spacing: 2px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.hidden-landing {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Sections Styling */
+section {
+  padding: 40px 25px;
+  text-align: center;
+  border-bottom: 1px dashed #eedad1;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  color: var(--primary-color);
+  margin-top: 0;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1519741497674-611481863552') center/cover;
+  color: white;
+  padding: 60px 20px;
+}
+
+.hero h1 { color: #fff; font-size: 38px; margin-bottom: 5px; }
+.hero h2 { color: #fff; font-size: 28px; font-weight: 400; }
+.couple-details { margin: 20px 0; font-size: 13px; line-height: 1.6; }
+
+/* Scratch Card */
+.scratch-container {
+  position: relative;
+  width: 260px;
+  height: 190px;
+  margin: 15px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.scratch-reveal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+canvas#scratchCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+/* Countdown Timer */
+.timer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.time-box {
+  background: #f4e3e7;
+  padding: 10px;
+  border-radius: 8px;
+  min-width: 58px;
+  flex: 1;
+  max-width: 70px;
+}
+
+.time-box span {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.time-box label {
+  font-size: 9px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.countdown-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.countdown-card h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.countdown-card .event-date {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.countdown-card.engagement-theme .time-box { background: #faf1dc; }
+.countdown-card.engagement-theme .time-box span { color: #a3801e; }
+.countdown-card.wedding-theme .time-box { background: #f4e3e7; }
+.countdown-card.wedding-theme .time-box span { color: var(--primary-color); }
+
+/* Layout Grids for Mobile & PC Desktop */
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+/* Dynamic Cards Styling */
+.timeline-item, .event-item {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.timeline-item h4, .event-item h4 {
+  margin: 0 0 5px 0;
+  color: var(--primary-color);
+}
+
+.timeline-item p, .event-item p {
+  margin: 3px 0;
+  font-size: 13px;
+  color: #555;
+}
+
+.day-heading {
+  font-size: 15px;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 25px 0 12px;
+  text-align: left;
+}
+
+.day-heading:first-of-type { margin-top: 0; }
+
+/* About the couple */
+.about-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+.monogram {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  font-family: 'Great Vibes', cursive;
+  font-size: 30px;
+  color: var(--primary-color);
+  background: #fdf3ee;
+}
+
+.about-card p {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.7;
+  text-align: left;
+}
+
+.placeholder-text {
+  color: #aa8a70;
+  font-style: italic;
+}
+
+/* Our Story Timeline */
+.timeline-track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-left: 28px;
+  margin-top: 30px;
+  text-align: left;
+}
+
+.timeline-track::before {
+  content: '';
+  position: absolute;
+  left: 13px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--gold-color);
+}
+
+.timeline-node {
+  position: relative;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 3px solid var(--bg-light);
+  box-shadow: 0 0 0 2px var(--gold-color);
+  flex-shrink: 0;
+  margin-top: 3px;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-node.today .timeline-dot {
+  background: var(--gold-color);
+  box-shadow: 0 0 0 2px var(--primary-color);
+  animation: pulse-dot 1.8s infinite;
+}
+
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 2px var(--primary-color); }
+  50% { box-shadow: 0 0 0 5px rgba(144,48,79,0.25); }
+  100% { box-shadow: 0 0 0 2px var(--primary-color); }
+}
+
+.timeline-date {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  color: var(--primary-color);
+  display: block;
+  font-size: 14px;
+}
+
+.timeline-node p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #555;
+}
+
+.timeline-node.today .timeline-date { color: #a3801e; }
+.timeline-node.infinity .timeline-date { color: var(--primary-color); }
+
+.timeline-chevron {
+  align-self: flex-start;
+  flex: 0 0 auto;
+  color: var(--gold-color);
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1;
+  margin-left: -14px;
+  transform: rotate(90deg);
+}
+
+/* Venues */
+.venue-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+.venue-card .subtitle { margin-bottom: 5px; }
+
+.venue-card p {
+  font-size: 13px;
+  color: #666;
+  margin: 0 auto 15px;
+}
+
+/* Form-adjacent elements removed with Dress Code / Send Message sections */
+
+.btn-map {
+  display: inline-block;
+  background: var(--primary-color);
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+/* Responsive Desktop Styles */
+@media (min-width: 600px) {
+  body {
+    padding: 30px 0;
+  }
+
+  .main-container {
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .grid-layout-2col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-layout-3col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .full-width {
+    grid-column: span 2;
+  }
+
+  /* Story timeline becomes a horizontal straight line on wider screens */
+  .timeline-track {
+    flex-direction: row;
+    padding-left: 0;
+    padding-top: 10px;
+    gap: 6px;
+    align-items: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden; /* without this, setting overflow-x alone makes browsers force overflow-y:auto too, which was showing a stray vertical scrollbar */
+    padding-bottom: 10px;
+  }
+
+  .timeline-track::before {
+    left: 0;
+    right: 0;
+    top: 19px;
+    bottom: auto;
+    width: 100%;
+    height: 2px;
+  }
+
+  .timeline-chevron {
+    align-self: flex-start;
+    margin-top: 10px;
+    transform: none;
+  }
+
+  .timeline-node {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1 0 130px;
+    min-width: 130px;
+    gap: 10px;
+  }
+
+  .timeline-node p {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 900px) {
+  .main-container {
+    max-width: 900px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="main-container">
+
+  <!-- Envelope Landing Screen -->
+  <div class="envelope-landing" id="envelopeLanding">
+    <div class="envelope">
+      <div class="envelope-flap"></div>
+      <div class="wax-seal" onclick="openEnvelope()">
+        <span>Tap</span>
+        <span>to Open</span>
+      </div>
+    </div>
+    <div class="envelope-text">You Are Invited</div>
+  </div>
+
+  <!-- Main Hero Section -->
+  <section class="hero">
+    <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 11px;">We are honored to invite you to celebrate the engagement & wedding of</p>
+    <h1>Veer</h1>
+    <p class="couple-details">Son of Mr. & Mrs. Khan<br>M.Tech, PhD<br>Software Engineer</p>
+    <h2>& Zara</h2>
+    <p class="couple-details">Daughter of Mr. & Mrs. Pathan<br>B.Tech, MBA<br>Advocate, High Court</p>
+  </section>
+
+  <!-- Scratch to Reveal Dates -->
+  <section>
+    <div class="subtitle">Blessed Occasions</div>
+    <h2>Scratch to Reveal the Dates</h2>
+    <div class="scratch-container">
+      <div class="scratch-reveal">
+        <p style="margin:0 0 8px; font-size: 12px; color: #888;">Our Forever Begins</p>
+        <h3 style="margin: 2px 0; font-size: 17px;">Engagement · Oct 24, 2026</h3>
+        <h3 style="margin: 2px 0; font-size: 17px;">Wedding · Nov 22, 2026</h3>
+      </div>
+      <canvas id="scratchCanvas" width="260" height="190"></canvas>
+    </div>
+  </section>
+
+  <!-- Countdown Timers -->
+  <section>
+    <h2>Counting Down to Forever</h2>
+    <div class="grid-layout grid-layout-2col">
+      <div class="countdown-card engagement-theme">
+        <h3>Engagement</h3>
+        <p class="event-date">Oct 24, 2026</p>
+        <div class="timer" id="countdownEngagement">
+          <div class="time-box"><span id="eng-days">00</span><label>Days</label></div>
+          <div class="time-box"><span id="eng-hours">00</span><label>Hours</label></div>
+          <div class="time-box"><span id="eng-minutes">00</span><label>Mins</label></div>
+          <div class="time-box"><span id="eng-seconds">00</span><label>Secs</label></div>
+        </div>
+      </div>
+      <div class="countdown-card wedding-theme">
+        <h3>Wedding</h3>
+        <p class="event-date">Nov 22, 2026</p>
+        <div class="timer" id="countdownWedding">
+          <div class="time-box"><span id="wed-days">00</span><label>Days</label></div>
+          <div class="time-box"><span id="wed-hours">00</span><label>Hours</label></div>
+          <div class="time-box"><span id="wed-minutes">00</span><label>Mins</label></div>
+          <div class="time-box"><span id="wed-seconds">00</span><label>Secs</label></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About the Groom & Bride -->
+  <section>
+    <div class="subtitle">Get to Know Us</div>
+    <h2>About the Couple</h2>
+    <div class="grid-layout grid-layout-2col" style="margin-top: 20px;">
+      <div class="about-card">
+        <div class="monogram">V</div>
+        <h3>Veer</h3>
+        <p class="placeholder-text">[Add a few lines about the groom here — his personality, passions, and what makes him special.]</p>
+      </div>
+      <div class="about-card">
+        <div class="monogram">Z</div>
+        <h3>Zara</h3>
+        <p class="placeholder-text">[Add a few lines about the bride here — her personality, passions, and what makes her special.]</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story Timeline -->
+  <section>
+    <div class="subtitle">Our Journey</div>
+    <h2>Our Story</h2>
+    <div class="timeline-track">
+      <div class="timeline-node">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">Dec 02, 2001</span>
+          <p>Our groom is born</p>
+        </div>
+      </div>
+      <div class="timeline-node">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">Oct 09, 2002</span>
+          <p>Our bride is born</p>
+        </div>
+      </div>
+      <div class="timeline-node">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">May 13, 2026</span>
+          <p>Their first meet</p>
+        </div>
+      </div>
+      <div class="timeline-node today">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date" id="todayDate">—</span>
+          <p>We're here</p>
+        </div>
+      </div>
+      <div class="timeline-node">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">Oct 24, 2026</span>
+          <p>Engagement</p>
+        </div>
+      </div>
+      <div class="timeline-node">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">Nov 22, 2026</span>
+          <p>Marriage</p>
+        </div>
+      </div>
+      <div class="timeline-node infinity">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">Nov 22, 2026 → ∞</span>
+          <p>Happily ever after...</p>
+        </div>
+      </div>
+      <div class="timeline-chevron" aria-hidden="true">❯</div>
+    </div>
+  </section>
+
+  <!-- Venues -->
+  <section>
+    <h2>Venues</h2>
+    <div class="grid-layout grid-layout-2col">
+      <div class="venue-card">
+        <div class="subtitle">Engagement</div>
+        <h3 class="placeholder-text" style="font-size: 18px;">[Add venue name]</h3>
+        <p class="placeholder-text">[Add venue address]</p>
+        <a href="#" target="_blank" class="btn-map">View on Google Maps</a>
+      </div>
+      <div class="venue-card">
+        <div class="subtitle">Wedding</div>
+        <h3 style="font-size: 18px;">The Taj Mahal Palace</h3>
+        <p>Apollo Bunder, Colaba, Mumbai, Maharashtra 400001</p>
+        <a href="https://maps.google.com" target="_blank" class="btn-map">View on Google Maps</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Program Timeline -->
+  <section>
+    <h2>Program Timeline</h2>
+
+    <div class="day-heading">Engagement Day · Oct 24, 2026</div>
+    <div class="grid-layout grid-layout-2col">
+      <div class="timeline-item">
+        <h4>Guest Arrival</h4>
+        <p><strong>Time:</strong> [Add time]</p>
+        <p>We warmly welcome you!</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Engagement Ceremony</h4>
+        <p><strong>Time:</strong> [Add time]</p>
+        <p>Your gracious presence is requested.</p>
+      </div>
+    </div>
+
+    <div class="day-heading">Wedding Day · Nov 22, 2026</div>
+    <div class="grid-layout grid-layout-3col">
+      <div class="timeline-item">
+        <h4>Guest Arrival</h4>
+        <p><strong>Time:</strong> [Add time]</p>
+        <p>We warmly welcome you!</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Wedding Ceremony</h4>
+        <p><strong>Time:</strong> [Add time]</p>
+        <p>Your gracious presence is requested.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Reception</h4>
+        <p><strong>Time:</strong> [Add time]</p>
+        <p>Reception & Dinner onwards.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// Open Envelope Function
+function openEnvelope() {
+  document.getElementById('envelopeLanding').classList.add('hidden-landing');
+  initScratchCard();
+}
+
+// Scratch Card Logic
+function initScratchCard() {
+  const canvas = document.getElementById('scratchCanvas');
+  const ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = '#cf7d93';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '16px Poppins';
+  ctx.textAlign = 'center';
+  ctx.fillText('Scratch Here ❤️', canvas.width / 2, canvas.height / 2 + 5);
+
+  let isDrawing = false;
+
+  function scratch(e) {
+    if (!isDrawing) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX || e.touches[0].clientX) - rect.left;
+    const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, 18, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  canvas.addEventListener('mousedown', () => isDrawing = true);
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mousemove', scratch);
+
+  canvas.addEventListener('touchstart', () => isDrawing = true);
+  canvas.addEventListener('touchend', () => isDrawing = false);
+  canvas.addEventListener('touchmove', scratch);
+}
+
+// Countdown Timer Logic (Engagement + Wedding)
+const engagementDate = new Date("October 24, 2026 00:00:00").getTime();
+const weddingDate = new Date("November 22, 2026 00:00:00").getTime();
+
+function updateCountdown(targetTime, prefix) {
+  const now = new Date().getTime();
+  const distance = targetTime - now;
+
+  if (distance > 0) {
+    document.getElementById(prefix + "-days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+    document.getElementById(prefix + "-hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    document.getElementById(prefix + "-minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    document.getElementById(prefix + "-seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+  } else {
+    ["days", "hours", "minutes", "seconds"].forEach(unit => {
+      document.getElementById(prefix + "-" + unit).innerText = "00";
+    });
+  }
+}
+
+setInterval(() => {
+  updateCountdown(engagementDate, "eng");
+  updateCountdown(weddingDate, "wed");
+}, 1000);
+
+// "We're here" — updates daily to the current date
+function updateTodayMarker() {
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const now = new Date();
+  const formatted = String(now.getDate()).padStart(2, '0') + " " + months[now.getMonth()] + ", " + now.getFullYear();
+  const el = document.getElementById('todayDate');
+  if (el) el.innerText = formatted;
+}
+
+updateTodayMarker();
+// Re-check periodically so the label rolls over automatically after midnight
+// if the page happens to stay open (recalculated on every load either way).
+setInterval(updateTodayMarker, 60 * 60 * 1000);
+</script>
+
+</body>
+</html>
