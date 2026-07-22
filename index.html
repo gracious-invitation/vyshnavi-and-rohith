@@ -364,14 +364,28 @@
       }
 
       /* Our Story Timeline */
+      .timeline-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 30px;
+      }
+
+      .timeline-viewport {
+        overflow: hidden; /* no native scrollbar, ever — panning is done via transform + chevrons */
+        flex: 1;
+        min-width: 0;
+      }
+
       .timeline-track {
         position: relative;
         display: flex;
         flex-direction: column;
         gap: 28px;
         padding-left: 28px;
-        margin-top: 30px;
         text-align: left;
+        transition: transform 0.4s ease;
       }
 
       .timeline-track::before {
@@ -441,6 +455,10 @@
       }
       .timeline-node.infinity .timeline-date {
         color: var(--primary-color);
+      }
+
+      .timeline-nav {
+        display: none; /* mobile: the line is vertical and the page just scrolls normally, no nav needed */
       }
 
       .timeline-chevron {
@@ -514,11 +532,10 @@
           flex-direction: row;
           padding-left: 0;
           padding-top: 10px;
+          padding-bottom: 10px;
           gap: 6px;
           align-items: flex-start;
-          overflow-x: auto;
-          overflow-y: hidden; /* without this, setting overflow-x alone makes browsers force overflow-y:auto too, which was showing a stray vertical scrollbar */
-          padding-bottom: 10px;
+          width: max-content; /* lets the track exceed the viewport width so it can be panned via transform */
         }
 
         .timeline-track::before {
@@ -540,13 +557,43 @@
           flex-direction: column;
           align-items: center;
           text-align: center;
-          flex: 1 0 130px;
-          min-width: 130px;
+          flex: 0 0 130px;
+          width: 130px;
           gap: 10px;
         }
 
         .timeline-node p {
           font-size: 12px;
+        }
+
+        .timeline-nav {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          border: none;
+          background: var(--gold-color);
+          color: #fff;
+          font-size: 13px;
+          line-height: 1;
+          cursor: pointer;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+          transition:
+            opacity 0.2s ease,
+            transform 0.15s ease;
+        }
+
+        .timeline-nav:hover {
+          transform: scale(1.08);
+        }
+
+        .timeline-nav:disabled {
+          opacity: 0.3;
+          cursor: default;
+          pointer-events: none;
         }
       }
 
@@ -616,7 +663,10 @@
       <!-- Countdown Timers -->
       <section>
         <h2>Counting Down to Forever</h2>
-        <div class="grid-layout grid-layout-2col reveal-on-scratch" id="countdownGrid">
+        <div
+          class="grid-layout grid-layout-2col reveal-on-scratch"
+          id="countdownGrid"
+        >
           <div class="countdown-card engagement-theme">
             <h3>Engagement</h3>
             <p class="event-date">Oct 24, 2026</p>
@@ -678,57 +728,76 @@
       <section>
         <div class="subtitle">Our Journey</div>
         <h2>Our Story</h2>
-        <div class="timeline-track">
-          <div class="timeline-node">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <span class="timeline-date">Dec 02, 2001</span>
-              <p>Our groom is born</p>
+        <div class="timeline-wrapper" id="timelineWrapper">
+          <button
+            type="button"
+            class="timeline-nav prev"
+            id="timelinePrev"
+            aria-label="Show earlier moments"
+          >
+            ❮
+          </button>
+          <div class="timeline-viewport">
+            <div class="timeline-track" id="timelineTrack">
+              <div class="timeline-node">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date">Dec 02, 2001</span>
+                  <p>Our groom is born</p>
+                </div>
+              </div>
+              <div class="timeline-node">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date">Oct 09, 2002</span>
+                  <p>Our bride is born</p>
+                </div>
+              </div>
+              <div class="timeline-node">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date">May 13, 2026</span>
+                  <p>Their first meet</p>
+                </div>
+              </div>
+              <div class="timeline-node today">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date" id="todayDate">—</span>
+                  <p>We're here</p>
+                </div>
+              </div>
+              <div class="timeline-node reveal-on-scratch">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date">Oct 24, 2026</span>
+                  <p>Engagement</p>
+                </div>
+              </div>
+              <div class="timeline-node reveal-on-scratch">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date">Nov 22, 2026</span>
+                  <p>Marriage</p>
+                </div>
+              </div>
+              <div class="timeline-node infinity reveal-on-scratch">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-date">Nov 22, 2026 → ∞</span>
+                  <p>Happily ever after...</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="timeline-node">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <span class="timeline-date">Oct 09, 2002</span>
-              <p>Our bride is born</p>
-            </div>
-          </div>
-          <div class="timeline-node">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <span class="timeline-date">May 13, 2026</span>
-              <p>Their first meet</p>
-            </div>
-          </div>
-          <div class="timeline-node today">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <span class="timeline-date" id="todayDate">—</span>
-              <p>We're here</p>
-            </div>
-          </div>
-          <div class="timeline-node reveal-on-scratch">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <span class="timeline-date">Oct 24, 2026</span>
-              <p>Engagement</p>
-            </div>
-          </div>
-          <div class="timeline-node reveal-on-scratch">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <span class="timeline-date">Nov 22, 2026</span>
-              <p>Marriage</p>
-            </div>
-          </div>
-          <div class="timeline-node infinity reveal-on-scratch">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <span class="timeline-date">Nov 22, 2026 → ∞</span>
-              <p>Happily ever after...</p>
-            </div>
-          </div>
-          <div class="timeline-chevron reveal-on-scratch" aria-hidden="true">❯</div>
+          <button
+            type="button"
+            class="timeline-nav next"
+            id="timelineNext"
+            aria-label="Show later moments"
+          >
+            ❯
+          </button>
         </div>
       </section>
 
@@ -759,7 +828,9 @@
       <section>
         <h2>Program Timeline</h2>
 
-        <div class="day-heading reveal-on-scratch">Engagement Day · Oct 24, 2026</div>
+        <div class="day-heading reveal-on-scratch">
+          Engagement Day · Oct 24, 2026
+        </div>
         <div class="grid-layout grid-layout-2col">
           <div class="timeline-item">
             <h4>Guest Arrival</h4>
@@ -773,7 +844,9 @@
           </div>
         </div>
 
-        <div class="day-heading reveal-on-scratch">Wedding Day · Nov 22, 2026</div>
+        <div class="day-heading reveal-on-scratch">
+          Wedding Day · Nov 22, 2026
+        </div>
         <div class="grid-layout grid-layout-3col">
           <div class="timeline-item">
             <h4>Guest Arrival</h4>
@@ -828,12 +901,7 @@
         // auto-clear the rest of the card.
         function checkScratchProgress() {
           if (revealed) return;
-          const data = ctx.getImageData(
-            0,
-            0,
-            canvas.width,
-            canvas.height,
-          ).data;
+          const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
           let cleared = 0;
           let sampled = 0;
           // Sample every 4th pixel (stride over the alpha channel) for speed.
@@ -945,6 +1013,43 @@
       // Re-check periodically so the label rolls over automatically after midnight
       // if the page happens to stay open (recalculated on every load either way).
       setInterval(updateTodayMarker, 60 * 60 * 1000);
+
+      // Our Story timeline — panned with the chevrons only, never a scrollbar.
+      function setupTimelineNav() {
+        const track = document.getElementById("timelineTrack");
+        const viewport = track ? track.parentElement : null;
+        const prevBtn = document.getElementById("timelinePrev");
+        const nextBtn = document.getElementById("timelineNext");
+        if (!track || !viewport || !prevBtn || !nextBtn) return;
+
+        let offset = 0;
+        const step = 140;
+
+        function apply() {
+          const maxOffset = Math.max(
+            0,
+            track.scrollWidth - viewport.clientWidth,
+          );
+          offset = Math.min(Math.max(offset, 0), maxOffset);
+          track.style.transform = "translateX(-" + offset + "px)";
+          prevBtn.disabled = offset <= 0;
+          nextBtn.disabled = offset >= maxOffset - 1;
+        }
+
+        prevBtn.addEventListener("click", () => {
+          offset -= step;
+          apply();
+        });
+        nextBtn.addEventListener("click", () => {
+          offset += step;
+          apply();
+        });
+
+        window.addEventListener("resize", apply);
+        apply();
+      }
+
+      setupTimelineNav();
     </script>
   </body>
 </html>
