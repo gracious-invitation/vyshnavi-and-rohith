@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-locked">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,6 +34,12 @@
         padding: 0;
       }
 
+      /* Freeze the page behind the envelope until it's opened */
+      html.scroll-locked,
+      html.scroll-locked body {
+        overflow: hidden;
+      }
+
       /* Responsive Main Container */
       .main-container {
         width: 100%;
@@ -59,6 +65,8 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        touch-action: none;
+        overscroll-behavior: none;
         transition:
           transform 0.8s ease-in-out,
           opacity 0.8s ease-in-out;
@@ -172,6 +180,22 @@
         line-height: 1.6;
       }
 
+      /* Scratch heading fades and collapses once the dates are revealed */
+      .scratch-heading {
+        max-height: 80px;
+        overflow: hidden;
+        transition:
+          opacity 0.5s ease,
+          max-height 0.6s ease,
+          margin 0.6s ease;
+      }
+
+      .scratch-heading.gone {
+        opacity: 0;
+        max-height: 0;
+        margin-bottom: 0;
+      }
+
       /* Scratch Card */
       .scratch-container {
         position: relative;
@@ -204,6 +228,7 @@
         top: 0;
         left: 0;
         cursor: pointer;
+        touch-action: none; /* lets fingers scratch instead of scrolling the page */
       }
 
       /* Countdown Timer */
@@ -643,7 +668,9 @@
       <!-- Scratch to Reveal Dates -->
       <section>
         <div class="subtitle">Blessed Occasions</div>
-        <h2>Scratch to Reveal the Dates</h2>
+        <h2 class="scratch-heading" id="scratchHeading">
+          Scratch to Reveal the Dates
+        </h2>
         <div class="scratch-container">
           <div class="scratch-reveal">
             <p style="margin: 0 0 8px; font-size: 12px; color: #888">
@@ -813,9 +840,10 @@
             <p>Sowbhagyapuram Colony, Srinagar Colony, Kothapet, Hyderabad, Telangana 500102</p>
             <a
               href="https://maps.app.goo.gl/fQrtBnAXpsPW5uyc7"
-              target="_blank" 
+              target="_blank"
               class="btn-map"
-              >View on Google Maps</a>
+              >View on Google Maps</a
+            >
           </div>
           <div class="venue-card">
             <div class="subtitle">Wedding</div>
@@ -861,7 +889,7 @@
         <div class="grid-layout grid-layout-3col">
           <div class="timeline-item">
             <h4>Guest Arrival</h4>
-            <p><strong>Time:</strong> [Add time]</p>
+            <p><strong>Time:</strong> 9:00 AM</p>
             <p>We warmly welcome you!</p>
           </div>
           <div class="timeline-item">
@@ -878,11 +906,17 @@
     </div>
 
     <script>
+      // Always start at the top, behind the envelope (stops the browser
+      // restoring an old scroll position on refresh)
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      window.scrollTo(0, 0);
+
       // Open Envelope Function
       function openEnvelope() {
         document
           .getElementById("envelopeLanding")
           .classList.add("hidden-landing");
+        document.documentElement.classList.remove("scroll-locked");
         initScratchCard();
       }
 
@@ -907,8 +941,8 @@
         let revealed = false;
 
         // Once enough of the card has been scratched, unblur the
-        // countdown + Engagement/Wedding/beyond timeline nodes and
-        // auto-clear the rest of the card.
+        // countdown + Engagement/Wedding/beyond timeline nodes,
+        // hide the "Scratch to Reveal" heading and auto-clear the card.
         function checkScratchProgress() {
           if (revealed) return;
           const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
@@ -923,6 +957,7 @@
 
           if (percentCleared > 40) {
             revealed = true;
+            document.getElementById("scratchHeading").classList.add("gone");
             document
               .querySelectorAll(".reveal-on-scratch")
               .forEach((el) => el.classList.add("revealed"));
