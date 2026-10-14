@@ -156,28 +156,49 @@
 
       /* Hero Section */
       .hero {
-        background:
-          linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-          url("https://images.unsplash.com/photo-1519741497674-611481863552")
-            center/cover;
-        color: white;
-        padding: 60px 20px;
+        background: var(--bg-light);
+        padding: 30px 20px 45px;
+      }
+
+      .hero-art {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 0 auto 25px;
+        mix-blend-mode: multiply; /* melts the image's white background into the page colour */
+      }
+
+      .hero-intro {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 11px;
+        color: #777;
       }
 
       .hero h1 {
-        color: #fff;
         font-size: 38px;
         margin-bottom: 5px;
       }
+
       .hero h2 {
-        color: #fff;
         font-size: 28px;
         font-weight: 400;
       }
+
       .couple-details {
         margin: 20px 0;
         font-size: 13px;
         line-height: 1.6;
+        color: #555;
+      }
+
+      /* On phones, zoom into the centre so Sita & Rama aren't tiny */
+      @media (max-width: 599px) {
+        .hero-art {
+          aspect-ratio: 2 / 1;
+          object-fit: cover;
+          object-position: center;
+        }
       }
 
       /* Scratch heading fades and collapses once the dates are revealed */
@@ -548,6 +569,10 @@
           grid-template-columns: repeat(3, 1fr);
         }
 
+        .grid-layout-4col {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
         .full-width {
           grid-column: span 2;
         }
@@ -626,6 +651,10 @@
         .main-container {
           max-width: 900px;
         }
+
+      .grid-layout-4col {
+          grid-template-columns: repeat(4, 1fr);
+        }
       }
     </style>
   </head>
@@ -646,13 +675,12 @@
 
       <!-- Main Hero Section -->
       <section class="hero">
-        <p
-          style="
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 11px;
-          "
-        >
+        <img
+          src="https://d2j6dbq0eux0bg.cloudfront.net/images/11503874/521981392.jpg"
+          alt="Sri Rama Pattabhishekam by Bapu"
+          class="hero-art"
+        />
+        <p class="hero-intro">
           We are honored to invite you to celebrate the engagement & marriage of
         </p>
         <h1>Vyshnavi</h1>
@@ -888,11 +916,15 @@
         <div class="day-heading reveal-on-scratch">
           Marriage Day · Nov 22, 2026
         </div>
-        <div class="grid-layout grid-layout-3col">
+        <div class="grid-layout grid-layout-4col">
           <div class="timeline-item">
             <h4>Guest Arrival</h4>
             <p><strong>Time:</strong> 9:00 AM</p>
             <p>We warmly welcome you!</p>
+          </div>
+          <div class="timeline-item">
+            <h4>Lunch</h4>
+            <p><strong>Time:</strong> 12:30 PM</p>
           </div>
           <div class="timeline-item">
             <h4>Dinner</h4>
@@ -997,8 +1029,8 @@
       }
 
       // Countdown Timer Logic (Engagement + Marriage)
-      const engagementDate = new Date("October 24, 2026 00:00:00").getTime();
-      const weddingDate = new Date("November 22, 2026 00:00:00").getTime();
+      const engagementDate = new Date("2026-10-24T11:38:00+05:30").getTime();
+      const weddingDate = new Date("2026-11-22T22:01:00+05:30").getTime();
 
       function updateCountdown(targetTime, prefix) {
         const now = new Date().getTime();
