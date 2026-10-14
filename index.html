@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vyshnavi & Rohith - Engagement & Wedding Invitation</title>
+    <title>Vyshnavi & Rohith - Engagement & Marriage Invitation</title>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&family=Great+Vibes&display=swap"
@@ -653,7 +653,7 @@
             font-size: 11px;
           "
         >
-          We are honored to invite you to celebrate the engagement & wedding of
+          We are honored to invite you to celebrate the engagement & marriage of
         </p>
         <h1>Vyshnavi</h1>
         <p class="couple-details">
@@ -680,7 +680,7 @@
               Engagement · Oct 24, 2026
             </h3>
             <h3 style="margin: 2px 0; font-size: 17px">
-              Wedding · Nov 22, 2026
+              Marriage · Nov 22, 2026
             </h3>
           </div>
           <canvas id="scratchCanvas" width="260" height="190"></canvas>
@@ -713,9 +713,9 @@
             </div>
           </div>
           <div class="countdown-card wedding-theme">
-            <h3>Wedding</h3>
+            <h3>Marriage</h3>
             <p class="event-date">Nov 22, 2026</p>
-            <div class="timer" id="countdownWedding">
+            <div class="timer" id="countdownMarriage">
               <div class="time-box">
                 <span id="wed-days">00</span><label>Days</label>
               </div>
@@ -846,7 +846,7 @@
             >
           </div>
           <div class="venue-card">
-            <div class="subtitle">Wedding</div>
+            <div class="subtitle">Marriage</div>
             <h3 style="font-size: 18px">Goteti Kalyana Vedika</h3>
             <p>L. B. Nagar, Hyderabad, Telangana 500068</p>
             <a
@@ -873,7 +873,7 @@
             <p>We warmly welcome you!</p>
           </div>
           <div class="timeline-item">
-            <h4>Engagement Ceremony</h4>
+            <h4>Muhurtam</h4>
             <p><strong>Time:</strong> 11:38 AM</p>
             <p>Your gracious presence is requested.</p>
           </div>
@@ -884,7 +884,7 @@
         </div>
 
         <div class="day-heading reveal-on-scratch">
-          Wedding Day · Nov 22, 2026
+          Marriage Day · Nov 22, 2026
         </div>
         <div class="grid-layout grid-layout-3col">
           <div class="timeline-item">
@@ -941,7 +941,7 @@
         let revealed = false;
 
         // Once enough of the card has been scratched, unblur the
-        // countdown + Engagement/Wedding/beyond timeline nodes,
+        // countdown + Engagement/Marriage/beyond timeline nodes,
         // hide the "Scratch to Reveal" heading and auto-clear the card.
         function checkScratchProgress() {
           if (revealed) return;
@@ -994,7 +994,7 @@
         canvas.addEventListener("touchmove", scratch);
       }
 
-      // Countdown Timer Logic (Engagement + Wedding)
+      // Countdown Timer Logic (Engagement + Marriage)
       const engagementDate = new Date("October 24, 2026 00:00:00").getTime();
       const weddingDate = new Date("November 22, 2026 00:00:00").getTime();
 
